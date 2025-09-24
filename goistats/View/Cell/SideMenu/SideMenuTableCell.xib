@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSans-Regular.ttf">
+            <string>NotoSans-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SideMenuTableCell" rowHeight="50" id="KGk-i7-Jjw" customClass="SideMenuTableCell" customModule="goistats" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home" translatesAutoresizingMaskIntoConstraints="NO" id="XXZ-m1-itw">
+                        <rect key="frame" x="10" y="10" width="30" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" name="IconColorOne"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="4Ya-HC-ySe"/>
+                            <constraint firstAttribute="width" constant="30" id="K7D-DB-aOt"/>
+                        </constraints>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XQr-NK-LGA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dashboard" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPD-cv-pid">
+                        <rect key="frame" x="55" y="15.5" width="220" height="19.5"/>
+                        <fontDescription key="fontDescription" name="NotoSans-Regular" family="Noto Sans" pointSize="14"/>
+                        <color key="textColor" name="TextColorThreeBlackToYellow"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right" translatesAutoresizingMaskIntoConstraints="NO" id="nJK-cn-vkm">
+                        <rect key="frame" x="285" y="17.5" width="15" height="15"/>
+                        <color key="tintColor" name="IconColorOne"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="TqT-xC-SGR"/>
+                            <constraint firstAttribute="height" constant="15" id="udW-BK-NFi"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="divider" translatesAutoresizingMaskIntoConstraints="NO" id="cpo-Qo-m0g">
+                        <rect key="frame" x="0.0" y="49" width="320" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="6rn-gg-bEl"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="cpo-Qo-m0g" secondAttribute="bottom" id="78K-Xh-vFS"/>
+                    <constraint firstItem="cpo-Qo-m0g" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8yY-Z8-uc6"/>
+                    <constraint firstItem="XXZ-m1-itw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="ArX-fj-jjT"/>
+                    <constraint firstAttribute="trailing" secondItem="nJK-cn-vkm" secondAttribute="trailing" constant="20" id="BOt-mO-lnN"/>
+                    <constraint firstItem="cpo-Qo-m0g" firstAttribute="top" secondItem="XQr-NK-LGA" secondAttribute="bottom" id="BgR-yV-G8c"/>
+                    <constraint firstItem="XQr-NK-LGA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="CUw-mk-tvG"/>
+                    <constraint firstItem="XXZ-m1-itw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DL6-6A-TYD"/>
+                    <constraint firstItem="XQr-NK-LGA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Hp9-xE-FNc"/>
+                    <constraint firstAttribute="trailing" secondItem="XQr-NK-LGA" secondAttribute="trailing" id="JS9-EY-0Hg"/>
+                    <constraint firstItem="nJK-cn-vkm" firstAttribute="leading" secondItem="DPD-cv-pid" secondAttribute="trailing" constant="10" id="QPN-EZ-f1i"/>
+                    <constraint firstAttribute="trailing" secondItem="XQr-NK-LGA" secondAttribute="trailing" id="QZT-BP-zX5"/>
+                    <constraint firstItem="DPD-cv-pid" firstAttribute="leading" secondItem="XXZ-m1-itw" secondAttribute="trailing" constant="15" id="TGm-me-IU0"/>
+                    <constraint firstItem="nJK-cn-vkm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="d94-Hy-yrg"/>
+                    <constraint firstItem="XQr-NK-LGA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dph-lm-TUs"/>
+                    <constraint firstItem="DPD-cv-pid" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fQq-Yi-q7D"/>
+                    <constraint firstAttribute="trailing" secondItem="cpo-Qo-m0g" secondAttribute="trailing" id="uZM-SJ-9Da"/>
+                    <constraint firstItem="XQr-NK-LGA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="wOu-Jx-tjT"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="btnTap" destination="XQr-NK-LGA" id="LCF-wk-3sf"/>
+                <outlet property="imgArrow" destination="nJK-cn-vkm" id="IPd-bH-Kxt"/>
+                <outlet property="imgView" destination="XXZ-m1-itw" id="VxL-hy-MH7"/>
+                <outlet property="lblTitle" destination="DPD-cv-pid" id="eFu-8I-vnV"/>
+            </connections>
+            <point key="canvasLocation" x="169.56521739130437" y="143.97321428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrow_right" width="50" height="50"/>
+        <image name="divider" width="836.5" height="0.5"/>
+        <image name="home" width="32" height="32"/>
+        <namedColor name="IconColorOne">
+            <color red="0.050980392156862744" green="0.15294117647058825" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TextColorThreeBlackToYellow">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

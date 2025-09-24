@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSans-SemiBold.ttf">
+            <string>NotoSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProductCollectionViewCell" customModule="goistats" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="256" height="224"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="256" height="224"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvq-f5-TxM">
+                        <rect key="frame" x="5" y="5" width="246" height="214"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Zg-09-cmR">
+                                <rect key="frame" x="83" y="30" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="0da-vN-7y7"/>
+                                    <constraint firstAttribute="width" constant="80" id="NeD-SO-Zsa"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pi-bf-6dL">
+                                <rect key="frame" x="10" y="130" width="226" height="22"/>
+                                <fontDescription key="fontDescription" name="NotoSans-SemiBold" family="Noto Sans" pointSize="16"/>
+                                <color key="textColor" name="TextColorOneBlueToYellow"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5y-w8-SKv">
+                                <rect key="frame" x="0.0" y="210.66666666666666" width="246" height="3"/>
+                                <color key="backgroundColor" name="TextColorOneBlueToYellow"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="Bkg-Pc-pee"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="CardBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0pi-bf-6dL" secondAttribute="trailing" constant="10" id="6ft-4f-gxh"/>
+                            <constraint firstAttribute="trailing" secondItem="Z5y-w8-SKv" secondAttribute="trailing" id="OsH-mG-hGf"/>
+                            <constraint firstItem="0pi-bf-6dL" firstAttribute="top" secondItem="8Zg-09-cmR" secondAttribute="bottom" constant="20" id="Zeq-a9-RQB"/>
+                            <constraint firstItem="0pi-bf-6dL" firstAttribute="leading" secondItem="Tvq-f5-TxM" secondAttribute="leading" constant="10" id="adI-jb-E2S"/>
+                            <constraint firstItem="8Zg-09-cmR" firstAttribute="centerX" secondItem="Tvq-f5-TxM" secondAttribute="centerX" id="ae4-Pg-6Tl"/>
+                            <constraint firstAttribute="bottom" secondItem="Z5y-w8-SKv" secondAttribute="bottom" constant="0.5" id="eyN-Vb-2bb"/>
+                            <constraint firstItem="Z5y-w8-SKv" firstAttribute="leading" secondItem="Tvq-f5-TxM" secondAttribute="leading" id="kcj-Tl-7HH"/>
+                            <constraint firstItem="8Zg-09-cmR" firstAttribute="top" secondItem="Tvq-f5-TxM" secondAttribute="top" constant="30" id="zMu-tl-osF"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="Tvq-f5-TxM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="8Wn-UP-KE4"/>
+                <constraint firstAttribute="trailing" secondItem="Tvq-f5-TxM" secondAttribute="trailing" constant="5" id="ALe-UG-rti"/>
+                <constraint firstItem="Tvq-f5-TxM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="X4Z-Jv-EDf"/>
+                <constraint firstAttribute="bottom" secondItem="Tvq-f5-TxM" secondAttribute="bottom" constant="5" id="gHb-AW-ENR"/>
+            </constraints>
+            <size key="customSize" width="256" height="224"/>
+            <connections>
+                <outlet property="bottomView" destination="Z5y-w8-SKv" id="qrV-YJ-aqg"/>
+                <outlet property="imgProduct" destination="8Zg-09-cmR" id="cEf-Ik-mv0"/>
+                <outlet property="lblProduct" destination="0pi-bf-6dL" id="dFr-F7-YHs"/>
+                <outlet property="viewMain" destination="Tvq-f5-TxM" id="hB6-ig-Fvj"/>
+            </connections>
+            <point key="canvasLocation" x="-164.8854961832061" y="-95.070422535211279"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="CardBackgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TextColorOneBlueToYellow">
+            <color red="0.050980392156862744" green="0.15294117647058825" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
