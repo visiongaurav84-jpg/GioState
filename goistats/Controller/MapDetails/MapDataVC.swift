@@ -8,72 +8,75 @@
 import UIKit
 import DropDown
 
-protocol updateProductDataDelegate {
-    func updateData(indicatorValue:String, indicatorKey:String, frequencyValue:String, frequencyKey:String)
+protocol updateMapDataDelegate {
+    func updateData(year:String, sectorKey:String, sectorValue:String, imputationKey:String, imputationValue:String)
 }
 
-class ProductDataVC: UIViewController, updateProductVisualizationDelegate {
+class MapDataVC: UIViewController, updateMapVisualizationDelegate {
+
     
     //MARK: - Outlets...
+    @IBOutlet weak var lblProduct: UILabel!
     @IBOutlet weak var viewScreenShot: UIView!
     @IBOutlet weak var viewParentView: UIView!
     @IBOutlet weak var lblIndicatorName: UILabel!
-    @IBOutlet weak var btnFrequency: UIButton!
-    @IBOutlet weak var btnIndicator: UIButton!
-    @IBOutlet weak var imgFrequency: UIImageView!
-    @IBOutlet weak var imgIndicator: UIImageView!
+    @IBOutlet weak var btnSector: UIButton!
+    @IBOutlet weak var btnYear: UIButton!
+    @IBOutlet weak var btnImputation: UIButton!
+    @IBOutlet weak var imgSector: UIImageView!
+    @IBOutlet weak var imgYear: UIImageView!
+    @IBOutlet weak var imgImputation: UIImageView!
     @IBOutlet weak var lblSubHeading: UILabel!
     @IBOutlet weak var lblHeading: UILabel!
     @IBOutlet weak var viewFrequency: UIView!
-   // @IBOutlet weak var constraintsViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var txtFrequency: UITextField!
-    @IBOutlet weak var txtIndicator: UITextField!
+    @IBOutlet weak var txtSector: UITextField!
+    @IBOutlet weak var txtYear: UITextField!
+    @IBOutlet weak var txtImputation: UITextField!
     @IBOutlet weak var tblProductDataList: UITableView!{
         didSet{
-            tblProductDataList.register(UINib(nibName: "ProductDataTVC", bundle: nil), forCellReuseIdentifier: "ProductDataTVC")
+            tblProductDataList.register(
+                UINib(
+                    nibName: "MapDataTVC",
+                    bundle: nil
+                ),
+                forCellReuseIdentifier: "MapDataTVC"
+            )
         }
     }
     
     //MARK: - Variable
-    var productList : [ProductList] = []
-    var dropDownIndicatorArr = [String]()
-    var dropDownFrequencyArr = [String]()
+    var productList : [MapList] = []
+    var dropDownYearArr = [String]()
+    var dropDownSectorArr = [String]()
+    var dropDownImputationArr = [String]()
     let dropDown = DropDown()
     var productDict:Product?
-    
+
+    var yearValue: String = ""
+    var sectorKey: String = ""
+    var sectorValue: String = ""
+    var imputationKey: String = ""
+    var imputationValue: String = ""
+    var indicatorKey: String = ""
     var indicatorValue: String = ""
-    var indicatorUpdatedKey: String = ""
-    var frequencyValue: String = ""
-    var frequencyKey: String = ""
-    var eSankhyikiWebsiteURL  =  ""
     
-    var dataUpdate: updateProductDataDelegate?
+    var eSankhyikiWebsiteURL  =  ""
+    var dataUpdate: updateMapDataDelegate?
     
     //This is only use for First Time....
-    var indicatorKey: String = ""
-    var frequencycheck: String = "first"
+    var yearCheck: String = "first"
+    var sectorCheck: String = "first"
+    var imputationCheck: String = "first"
     
     
     //MARK: - Life Cycle Methods...
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewParentView.isHidden = true
-       // self.constraintsViewHeight.constant = 210
-        self.viewFrequency.isHidden = false
-        self.tblProductDataList.showsVerticalScrollIndicator = false
-        
-        
-        if let indicators = self.productDict?.indicators,
-           let firstEntry = indicators.sorted(by: { $0.key < $1.key }).first {
-            indicatorKey = firstEntry.key
-            indicatorValue = firstEntry.value
-        } else {
-            indicatorKey = "NA"
-            indicatorValue = self.productDict?.indicators?["NA"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        }
-        
-        
         self.getProductDetails()
+    }
+    
+    static func getInstance() -> MapDataVC{
+        return MainStoryboard.instantiateViewController(withIdentifier: "MapDataVC") as! MapDataVC
     }
     
     //MARK: - Action Methods...
@@ -88,63 +91,76 @@ class ProductDataVC: UIViewController, updateProductVisualizationDelegate {
         }
     }
     
-    @IBAction func indicatorClicked(_ sender: Any) {
+    @IBAction func yearClicked(_ sender: Any) {
         
-        CustomMethods.openDropDownss(dropDown: dropDown, array: dropDownIndicatorArr, leading: 10, anchor: self.txtIndicator) { (dropDown) in
+        CustomMethods.openDropDownss(dropDown: dropDown, array: dropDownYearArr, leading: 10, anchor: self.txtYear) { (dropDown) in
             dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
                 //print("Selected item: \(item) at index: \(index)")
-                self.txtIndicator.text = item
-                self.indicatorUpdatedKey = item
+                self.txtYear.text = item
+                self.yearValue = item
                 
-                self.lblIndicatorName.text = item
+                self.dataUpdate?.updateData(year: self.yearValue, sectorKey: self.sectorKey,sectorValue: self.sectorValue,imputationKey: self.imputationKey,imputationValue: self.imputationValue)
                 
-                if let indicators = self.productList.first?.indicators {
-                    let sortedValues = indicators.sorted { $0.key < $1.key }.map { $0.value }
-                    print(sortedValues)
-                    if index < sortedValues.count {
-                        self.indicatorValue = sortedValues[index]
-                    }
-                }
-                self.dataUpdate?.updateData(indicatorValue: self.indicatorValue, indicatorKey: self.indicatorUpdatedKey, frequencyValue:self.frequencyValue, frequencyKey:self.frequencyKey)
                 self.getProductDetails()
             }
         }
     }
     
-    @IBAction func frequencyClicked(_ sender: Any) {
+    @IBAction func sectorClicked(_ sender: Any) {
         
-        CustomMethods.openDropDownss(dropDown: dropDown, array: dropDownFrequencyArr, leading: 10, anchor: self.txtFrequency) { (dropDown) in
+        CustomMethods.openDropDownss(dropDown: dropDown, array: dropDownSectorArr, leading: 10, anchor: self.txtSector) { (dropDown) in
             dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
                // print("Selected item: \(item) at index: \(index)")
-                self.txtFrequency.text = item
-                self.frequencyKey = item
+                self.txtSector.text = item
+                self.sectorKey = item
                 
-                if let frequency = self.productList.first?.frequency {
+                if let frequency = self.productList.first?.sector {
                     let sortedValues = frequency.sorted { $0.key < $1.key }.map { $0.value }
                     print(sortedValues)
                     if index < sortedValues.count {
-                        self.frequencyValue = sortedValues[index]
+                        self.sectorValue = sortedValues[index]
                     }
                 }
                 
-                self.dataUpdate?.updateData(indicatorValue: self.indicatorValue, indicatorKey: self.indicatorUpdatedKey, frequencyValue:self.frequencyValue, frequencyKey:self.frequencyKey)
+                self.dataUpdate?.updateData(year: self.yearValue, sectorKey: self.sectorKey,sectorValue: self.sectorValue,imputationKey: self.imputationKey,imputationValue: self.imputationValue)
                 
                 self.getProductDetails()
             }
         }
     }
     
-    func updateViziulization(indicatorValue: String, indicatorKey: String, frequencyValue: String, frequencyKey: String) {
+    @IBAction func imputationClicked(_ sender: Any) {
         
-        //print("opopop")
-        self.txtIndicator.text = indicatorKey
-        self.indicatorUpdatedKey = indicatorKey
-        self.lblIndicatorName.text = indicatorKey
-        self.indicatorValue = indicatorValue
-        
-        self.txtFrequency.text = frequencyKey
-        self.frequencyValue = frequencyValue
-        self.frequencyKey = frequencyKey
+        CustomMethods.openDropDownss(dropDown: dropDown, array: dropDownImputationArr, leading: 10, anchor: self.txtImputation) { (dropDown) in
+            dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+               // print("Selected item: \(item) at index: \(index)")
+                self.txtImputation.text = item
+                self.imputationKey = item
+                
+                if let imputation = self.productList.first?.imputation {
+                    let sortedValues = imputation.sorted { $0.key < $1.key }.map { $0.value }
+                    print(sortedValues)
+                    if index < sortedValues.count {
+                        self.imputationValue = sortedValues[index]
+                    }
+                }
+                
+                self.dataUpdate?.updateData(year: self.yearValue, sectorKey: self.sectorKey,sectorValue: self.sectorValue,imputationKey: self.imputationKey,imputationValue: self.imputationValue)
+                
+                self.getProductDetails()
+            }
+        }
+    }
+    
+    func updateVisualization(year:String, sectorKey: String, sectorValue: String, imputationKey: String, imputationValue: String ) {
+        self.txtYear.text = year
+        self.yearValue = year
+        self.txtSector.text = sectorKey
+        self.sectorKey = sectorKey
+        self.sectorValue = sectorValue
+        self.txtImputation.text = imputationKey
+        self.imputationKey = imputationKey
+        self.imputationValue = imputationValue
         
         self.getProductDetails()
     }
@@ -153,7 +169,7 @@ class ProductDataVC: UIViewController, updateProductVisualizationDelegate {
     
     @IBAction func downloadClicked(_ sender: Any) {
         //Create CSV File
-        if let fileURL = convertJsonToCsv(productList: productList, selectedItem: self.indicatorUpdatedKey) {
+        if let fileURL = convertJsonToCsv(productList: productList, selectedItem: self.indicatorKey) {
             //print("CSV saved at: \(fileURL)")
             
             // Optional: Present share sheet
@@ -166,7 +182,7 @@ class ProductDataVC: UIViewController, updateProductVisualizationDelegate {
     
     @IBAction func sharedClicked(_ sender: Any) {
         //Share file
-        convertJsonToCsvAndShare(productList: productList, selectedItem: self.indicatorUpdatedKey)
+        convertJsonToCsvAndShare(productList: productList, selectedItem: self.indicatorKey)
     }
     
     
@@ -174,7 +190,7 @@ class ProductDataVC: UIViewController, updateProductVisualizationDelegate {
 
 
 //MARK: - TableView Methods
-extension ProductDataVC : UITableViewDataSource, UITableViewDelegate{
+extension MapDataVC : UITableViewDataSource, UITableViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -185,7 +201,7 @@ extension ProductDataVC : UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDataTVC", for: indexPath) as! ProductDataTVC
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MapDataTVC", for: indexPath) as! MapDataTVC
         if let item = self.productList[0].data?.response?[indexPath.row] {
             cell.configure(with: item)
         }
@@ -198,7 +214,7 @@ extension ProductDataVC : UITableViewDataSource, UITableViewDelegate{
     
 }
 
-extension ProductDataVC{
+extension MapDataVC{
     
     func getProductDetails() {
         
@@ -222,16 +238,33 @@ extension ProductDataVC{
             let modelName = EncryptionUtility.deviceModelName()
             
             
+            // Get Indicator key value.
+            if let indicators = self.productDict?.indicators {
+                if !indicators.isEmpty {
+                    // Get first entry (any, since Dictionary has no guaranteed order)
+                    if let firstEntry = indicators.first {
+                        self.indicatorKey = firstEntry.key
+                        self.indicatorValue = firstEntry.value
+                    }
+                } else {
+                    self.indicatorKey = indicators["NA"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                    self.indicatorValue = indicators["NA"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                }
+            }
+            
             let params: NSDictionary = [
-                "productName" : self.productDict?.productName ?? "",
-                "indicatorValue" : indicatorValue,
-                "deviceId" : encryptedDeviceId!,
-                "frequency" : frequencyValue,
+                "productName": self.productDict?.productName ?? "",
+                "deviceId": encryptedDeviceId ?? "",
+                "year": (self.yearValue.isEmpty == false ? self.yearValue : "2023-24"),
+                "sector_code": (self.sectorValue.isEmpty == false ? self.sectorValue : "1"),
+                "imputation_type": (self.imputationValue.isEmpty == false ? self.imputationValue : "1"),
+                "indicatorValue": self.indicatorValue
             ]
-            //print(params)
+            
+            print(params)
             
             // Provide the desired order manually:
-            let orderedKeys = ["productName","indicatorValue","deviceId","frequency"]
+            let orderedKeys = ["productName","deviceId","year","sector_code","imputation_type","indicatorValue"]
             
             let json = EncryptionUtility.jsonStringPreservingKeyOrder(from: params, orderedKeys: orderedKeys)
             let checkSum = EncryptionUtility.sha256Checksum(json!)
@@ -246,13 +279,13 @@ extension ProductDataVC{
                 return
             }
             
-            ApiRequest.productDetailsAPI(params: params, checkSum: checkSum, success: { (response, status) in
-               // print("API response:\n", response)
+            ApiRequest.mapDetailsAPI(params: params, checkSum: checkSum, success: { (response, status) in
+               print("API response:\n", response)
                 
                 // Pretty print the response JSON
                 if let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
                    let str = String(data: data, encoding: .utf8) {
-                    //print(str)
+                    print(str)
                 }
                 
                 do {
@@ -287,76 +320,81 @@ extension ProductDataVC{
                     // Step 5: Convert back to JSON
                     let jsonData = try JSONSerialization.data(withJSONObject: modifiedResponse, options: [])
                     let decoder = JSONDecoder()
-                    let model = try decoder.decode(ProductPageResponse.self, from: jsonData)
+                    let model = try decoder.decode(MapPageResponse.self, from: jsonData)
                     
-                    //print("Decoded Response:", model)
+                    print("Decoded Response:", model)
                     
                     // Step 6: Use the decoded model
                     if status == StatusType.Success {
                         if let productList = model.productList {
                             self.productList = productList
-                            
-                            self.eSankhyikiWebsiteURL = productList[0].metaData?.eslink ?? ""
                             self.lblHeading.text = productList[0].productDescription
-                            self.setPeroidVAlue()
+                            self.lblIndicatorName.text = productList[0].indicators?.first?.key ?? ""
+                            self.setPeroidValue()
+                            self.eSankhyikiWebsiteURL = productList[0].metaData?.eslink ?? ""
+                           
                             
-                            // Indicator...
-                            self.dropDownIndicatorArr.removeAll()
-                            if let indicator = productList[0].indicators {
-                                self.dropDownIndicatorArr = productList.first?.indicators?
-                                    .sorted { $0.key < $1.key }
-                                    .map { $0.key } ?? []
-                            }
+                            // Year...
+                            self.dropDownYearArr.removeAll()
+                            self.dropDownYearArr = productList.first?.year ??  []
                             
-                            if self.dropDownIndicatorArr.contains(self.indicatorKey), self.indicatorKey != "" {
-                                self.txtIndicator.text = self.indicatorKey
-                                self.indicatorUpdatedKey = self.indicatorKey
-                                self.lblIndicatorName.text = self.indicatorKey
-                                
-                                if let indicators = self.productList.first?.indicators {
-                                    let sortedValues = indicators.sorted { $0.key < $1.key }.map { $0.value }
-                                    print(sortedValues)
-                                    self.indicatorValue = sortedValues[0]
+                            if self.yearCheck == "first"{
+                                if !self.dropDownYearArr.isEmpty {
+                                    self.txtYear.text = self.dropDownYearArr.first
+                                    self.yearValue = self.dropDownYearArr.first ?? ""
+                                    self.imgYear.layer.cornerRadius = 10
+                                    self.imgYear.clipsToBounds = true
+                                    self.imgYear.isHidden = self.dropDownSectorArr.count != 1
+                                    self.btnYear.isEnabled = self.dropDownSectorArr.count != 1
                                 }
-                                self.indicatorKey = ""
+                                self.yearCheck = ""
                             }
                             
-                            
-                            
-                            self.imgIndicator.layer.cornerRadius = 10
-                            self.imgIndicator.clipsToBounds = true
-                            self.imgIndicator.isHidden = self.dropDownIndicatorArr.count != 1
-                            self.btnIndicator.isEnabled = self.dropDownIndicatorArr.count != 1
-                            
-                            // Frequency...
-                            self.dropDownFrequencyArr = productList.first?.frequency?
+                            // Sector...
+                            self.dropDownSectorArr = productList.first?.sector?
                                 .sorted { $0.key < $1.key }
                                 .map { $0.key } ?? []
                             
-                            var localFrequencyArr = self.dropDownFrequencyArr
+                            var localFrequencyArr = self.dropDownSectorArr
                             localFrequencyArr = localFrequencyArr.reversed()
                             
                             
-                            if self.frequencycheck == "first"{
-                                if !self.dropDownFrequencyArr.isEmpty {
-                                    self.txtFrequency.text = localFrequencyArr.first
-                                    self.frequencyKey = localFrequencyArr.first ?? ""
-                                    self.imgFrequency.layer.cornerRadius = 10
-                                    self.imgFrequency.clipsToBounds = true
-                                    self.imgFrequency.isHidden = self.dropDownFrequencyArr.count != 1
-                                    self.btnFrequency.isEnabled = self.dropDownFrequencyArr.count != 1
+                            if self.sectorCheck == "first"{
+                                if !self.dropDownSectorArr.isEmpty {
+                                    self.txtSector.text = self.dropDownSectorArr.first
+                                    self.sectorKey = self.dropDownSectorArr.first ?? ""
+                                    self.imgSector.layer.cornerRadius = 10
+                                    self.imgSector.clipsToBounds = true
+                                    self.imgSector.isHidden = self.dropDownSectorArr.count != 1
+                                    self.btnSector.isEnabled = self.dropDownSectorArr.count != 1
                                     
-                                   // self.constraintsViewHeight.constant = 200
-                                    self.viewFrequency.isHidden = false
-                                } else {
-                                   // self.constraintsViewHeight.constant = 175
-                                    self.viewFrequency.isHidden = true
                                 }
-                                self.frequencycheck = ""
+                                self.sectorCheck = ""
                             }
                             
+                            // Imputation...
+                            self.dropDownImputationArr = productList.first?.imputation?
+                                .sorted { $0.key < $1.key }
+                                .map { $0.key } ?? []
+                            
+                            var localImputationArr = self.dropDownImputationArr
+                            localImputationArr = localImputationArr.reversed()
                             
                             
+                            if self.imputationCheck == "first"{
+                                if !self.dropDownImputationArr.isEmpty {
+                                    self.txtImputation.text = localImputationArr.first
+                                    self.imputationKey = localImputationArr.first ?? ""
+                                    self.imgImputation.layer.cornerRadius = 10
+                                    self.imgImputation.clipsToBounds = true
+                                    self.imgImputation.isHidden = self.dropDownImputationArr.count != 1
+                                    self.btnImputation.isEnabled = self.dropDownImputationArr.count != 1
+                                    
+                                }
+                                self.imputationCheck = ""
+                            }
+                            
+                            //update table data.
                             self.tblProductDataList.reloadData()
                         }
                     } else if status == StatusType.TokenExpired {
@@ -387,10 +425,11 @@ extension ProductDataVC{
         
     }
     
-    func setPeroidVAlue() {
+    func setPeroidValue() {
         let aggregateValue = productList[0].productAggregateValue ?? ""
         let valueDate = productList[0].valueDate ?? ""
-        let subHeading = "\(aggregateValue)   (Period: \(valueDate))"
+        self.lblSubHeading.text = aggregateValue
+        let subHeading = "(Period: \(valueDate))"
         
         let boldWord = "Period:"
         let attributedString = NSMutableAttributedString(string: subHeading)
@@ -400,10 +439,10 @@ extension ProductDataVC{
             attributedString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 17), range: nsRange)
         }
         
-        self.lblSubHeading.attributedText = attributedString
+        self.lblProduct.attributedText = attributedString
     }
     
-    func convertJsonToCsvAndShare(productList: [ProductList], selectedItem: String) {
+    func convertJsonToCsvAndShare(productList: [MapList], selectedItem: String) {
         guard !productList.isEmpty else { return }
         
         if let fileURL = convertJsonToCsv(productList: productList, selectedItem: selectedItem) {
@@ -423,7 +462,7 @@ extension ProductDataVC{
         }
     }
     
-    func convertJsonToCsv(productList: [ProductList], selectedItem: String) -> URL? {
+    func convertJsonToCsv(productList: [MapList], selectedItem: String) -> URL? {
         guard !productList.isEmpty else { return nil }
         
         do {
@@ -442,15 +481,13 @@ extension ProductDataVC{
             csvText.append("Period : \(productList[0].valueDate ?? "")\n\n\n")
             
             // Header
-            let header = ["Period", "Value", "Unit"]
+            let header = ["State/U.T.", "Value", "Unit"]
             csvText.append(header.joined(separator: ",") + "\n")
             
             // Data rows
             productList[0].data?.response?.forEach { map in
-                let value = Double(map["Indicator1_val"] ?? "") ?? 0
-                let year = map["financialyear"] ?? map["year"] ?? ""
-                let periodPart = map["month"] ?? map["quarterly"] ?? ""
-                let period = "\(periodPart) \(year)".trimmingCharacters(in: .whitespaces)
+                let value = Double(map.indicator1Val ?? "") ?? 0.0
+                let period = map.state!
                 let unit = productList[0].unit ?? ""
                 
                 let rowValues = [period, "\(value)", unit]

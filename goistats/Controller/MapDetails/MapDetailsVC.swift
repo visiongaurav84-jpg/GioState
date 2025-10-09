@@ -8,7 +8,7 @@
 import UIKit
 import LZViewPager
 
-class ProductDetailsVC: UIViewController, LZViewPagerDelegate, LZViewPagerDataSource {
+class MapDetailsVC: UIViewController, LZViewPagerDelegate, LZViewPagerDataSource {
     
     //MARK: - Outlets...
     @IBOutlet weak var viewPager: LZViewPager!
@@ -42,17 +42,17 @@ class ProductDetailsVC: UIViewController, LZViewPagerDelegate, LZViewPagerDataSo
         self.viewPager.dataSource = self
         self.viewPager.hostController = self
         
-        let vcVisualization = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProductVisualizationVC") as! ProductVisualizationVC
+        let vcVisualization = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MapVisualizationVC") as! MapVisualizationVC
         vcVisualization.productDict = self.productDict
         
-        let vcData = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProductDataVC") as! ProductDataVC
+        let vcData = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MapDataVC") as! MapDataVC
         vcData.productDict = self.productDict
         
         let vcInfographics = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProductInfographicsVC") as! ProductInfographicsVC
         vcInfographics.productName = self.productDict?.productName ?? ""
         
         vcData.dataUpdate = vcVisualization
-        vcVisualization.vizulizationUpdate = vcData
+        vcVisualization.visualizationUpdate = vcData
         
         _ = vcData.view
         _ = vcVisualization.view
@@ -123,7 +123,7 @@ class ProductDetailsVC: UIViewController, LZViewPagerDelegate, LZViewPagerDataSo
 }
 
 
-extension ProductDetailsVC {
+extension MapDetailsVC {
     
     func getInfographics() {
         // Example Usage: Encrypting data and storing it

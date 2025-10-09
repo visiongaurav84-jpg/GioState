@@ -77,6 +77,7 @@ class ApiRequestHelper{
         }
         
         //URLEncoding() as ParameterEncoding
+        //pinnedSession/AF
         pinnedSession.request(url, method: methodType, parameters: parameters as? [String: Any], encoding: JSONEncoding.default, headers: HTTPHeaders(headers))
             .validate()
             .responseData { response in
@@ -526,6 +527,17 @@ class ApiRequest{
                                  failure: @escaping(_ error : Error, _ status : Int) -> Void){
         //print(ApiUrl.productDetailsAPI)
         ApiRequestHelper.apiCall(url: ApiUrl.productDetailsAPI, parameters: params, methodType: .post, contentType: .applicationJson, isRequireAuthorization: true,checkSum: checkSum, showLoading: true, success: { (response, status) in
+            success(response, status)
+        }) { (error, status) in
+            failure(error, status)
+        }
+    }
+    
+    class func mapDetailsAPI(params : NSDictionary, checkSum : String,
+                                 success: @escaping(_ response : NSDictionary, _ status : Int) -> Void,
+                                 failure: @escaping(_ error : Error, _ status : Int) -> Void){
+        //print(ApiUrl.productDetailsAPI)
+        ApiRequestHelper.apiCall(url: ApiUrl.mapDetailsAPI, parameters: params, methodType: .post, contentType: .applicationJson, isRequireAuthorization: true,checkSum: checkSum, showLoading: true, success: { (response, status) in
             success(response, status)
         }) { (error, status) in
             failure(error, status)

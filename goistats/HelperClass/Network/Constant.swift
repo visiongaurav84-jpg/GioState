@@ -58,6 +58,7 @@ struct ApiUrl {
     static let infographicsAPI  =  ApiHostURL + "InfoListing"
     static let productsListAPI  =  ApiHostURL + "IndicatorListing"
     static let productDetailsAPI  =  ApiHostURL + "ProductsPage"
+    static let mapDetailsAPI  =  ApiHostURL + "ProductsPage2"
     static let searchAPI  =  ApiHostURL + "SearchQuery"
     static let infoGraphicDetailsAPI  =  ApiHostURL + "InfoListingId"
     static let updateViewAPI  =  ApiHostURL + "infoUpdate"

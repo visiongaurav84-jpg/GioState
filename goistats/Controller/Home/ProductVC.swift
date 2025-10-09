@@ -42,19 +42,16 @@ class ProductVC: UIViewController {
     
     // MARK: - Compositional Layout
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        // The size of each item is irrelevant here because we define exact frames
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
         )
         
-        // Overall group size (entire page)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
         )
         
-        // Custom group with manual frames
         let group = NSCollectionLayoutGroup.custom(layoutSize: groupSize) { environment in
             var frames: [NSCollectionLayoutGroupCustomItem] = []
             
@@ -82,8 +79,17 @@ class ProductVC: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .paging
         
+        // 🔥 Update PageControl when scrolling
+        section.visibleItemsInvalidationHandler = { [weak self] (items, offset, environment) in
+            guard let self = self else { return }
+            let page = round(offset.x / environment.container.contentSize.width)
+            self.pageControllerForColl.currentPage = Int(page)
+            self.currentIndex = Int(page) * 6
+        }
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
+
     
     // MARK: - Page Tracking
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -125,11 +131,24 @@ extension ProductVC: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         return cell
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = MainStoryboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-        vc.indexValue = 0
-        vc.productDict = productList[indexPath.row]
-        self.navigationController?.pushViewController(vc, animated: true)
+        let product = productList[indexPath.row]
+        let vc: UIViewController
+
+        if product.productName == "HCES" {
+            let mapVC = MainStoryboard.instantiateViewController(withIdentifier: "MapDetailsVC") as! MapDetailsVC
+            mapVC.indexValue = 0
+            mapVC.productDict = product
+            vc = mapVC
+        } else {
+            let detailsVC = MainStoryboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+            detailsVC.indexValue = 0
+            detailsVC.productDict = product
+            vc = detailsVC
+        }
+
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -152,37 +171,43 @@ extension ProductVC {
             // 4. AES encrypt the device ID using the derived key
             let encryptedDeviceId = EncryptionUtility.encrypt(plainText: uniqueAppId, password: derivedKeyHex!)
             
-            // 5. Model Name
+            // 5. AES encrypt the version code using the derived key.
+            let info = Bundle.main.infoDictionary
+            let currentVersion = info?["CFBundleShortVersionString"] as? String ?? ""
+            let encryptedVersionCode = EncryptionUtility.encrypt(plainText: currentVersion, password: derivedKeyHex!)
+            
+            // 6. Model Name
             let modelName = EncryptionUtility.deviceModelName()
             
             let params: NSDictionary = [
                 "deviceId": encryptedDeviceId!,
+                "versionCode": encryptedVersionCode!,
             ]
             
             // Provide the desired order manually:
-            let orderedKeys = ["deviceId"]
+            let orderedKeys = ["deviceId", "versionCode"]
             
             let json = EncryptionUtility.jsonStringPreservingKeyOrder(from: params, orderedKeys: orderedKeys)
             let checkSum = EncryptionUtility.sha256Checksum(json!)
             let salt = UserDefaults.standard.string(forKey: "ivKey") ?? ""
             
-            indicatorListingAPI(params: params)
+            indicatorListingAPI(params: params, checkSum: checkSum)
         }
         
         
-        func indicatorListingAPI(params: NSDictionary) {
+        func indicatorListingAPI(params: NSDictionary, checkSum: String = "") {
             if !isConnectedToNetwork() {
                 AppNotification.showErrorMessage(AppMessages.InternetError)
                 return
             }
             
-            ApiRequest.indicatorListingAPI(params: params, checkSum: "", success: { (response, status) in
-               // print("API response:\n", response)
+            ApiRequest.indicatorListingAPI(params: params, checkSum: checkSum, success: { (response, status) in
+                print("API response:\n", response)
                 
                 // Pretty print the response JSON
                 if let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
                    let str = String(data: data, encoding: .utf8) {
-                   // print(str)
+                    //print(str)
                 }
                 
                 // 1. Convert response dictionary to JSON Data
@@ -196,7 +221,7 @@ extension ProductVC {
                     let decoder = JSONDecoder()
                     let model = try decoder.decode(IndicatorListResponse.self, from: jsonData)
                     
-                   // print("Decoded Response:", model)
+                    //print("Decoded Response:", model)
                     
                     // 3. Use the decoded model here
                     if status == StatusType.Success {

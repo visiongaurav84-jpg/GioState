@@ -332,6 +332,7 @@ extension HomeVC {
             if isConnectedToNetwork() {
                 // Online: fetch API
                 ApiRequest.topProductsAPI(params: params, checkSum: "", success: { (response, status) in
+                    //print("API response:\n", response)
                     guard let jsonData = try? JSONSerialization.data(withJSONObject: response, options: []) else {
                         return
                     }
@@ -339,7 +340,7 @@ extension HomeVC {
                     do {
                         let decoder = JSONDecoder()
                         let model = try decoder.decode(ProductListResponse.self, from: jsonData)
-                        
+                        //print("Decoded Response:", model)
                         // Check if we should update DB
                         if self.shouldUpdateFromApi() {
                             self.clearCachedProducts() // delete old

@@ -1,3 +1,11 @@
+//
+//  MapPageResponse.swift
+//  goistats
+//
+//  Created by getitrent on 30/09/25.
+//
+
+
 import Foundation
 
 // MARK: - MapPageResponse
