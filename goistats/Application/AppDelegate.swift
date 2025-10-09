@@ -25,6 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavbarAppearance()
         setupSVProgressHUD()
         
+        
+//        setupRootForCustomSplashVC()
+//        setupIQKeyboard()
+//        setupNavbarAppearance()
+//        setupSVProgressHUD()
+        
         // Firebase config
         FirebaseApp.configure()
         
