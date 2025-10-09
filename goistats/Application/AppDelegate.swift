@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupSVProgressHUD()
         
         
-//        setupRootForCustomSplashVC()
+//        setupRootForCustomSplashVC() new i have chnage the code on GoiStateDev
 //        setupIQKeyboard()
 //        setupNavbarAppearance()
 //        setupSVProgressHUD()
