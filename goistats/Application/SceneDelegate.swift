@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     //MARK:- Variables
+    //Now GioStateDev Update the code 2....
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
