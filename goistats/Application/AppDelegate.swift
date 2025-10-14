@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupNavbarAppearance()
         setupSVProgressHUD()
         
-        
+
 //        setupRootForCustomSplashVC() Now Gaurav Update the code....
 //        setupIQKeyboard()
 //        setupNavbarAppearance()
