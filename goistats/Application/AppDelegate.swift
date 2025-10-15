@@ -26,7 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         setupSVProgressHUD()
         
 
-        //Now GioStateDev Update the code 1....
+        //Now GioStateDev Update the code 15 Oct 25....
+        //Now GioStateDev Update the code 15 Oct 25....
         
         
 //        setupRootForCustomSplashVC()
